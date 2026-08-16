@@ -9,7 +9,7 @@ async function initDatabase() {
   if (database) {
     return database;
   }
-  client = new MongoClient(mongoUrl);
+  const client = new MongoClient(mongoUrl);
   await client.connect();
   database = client.db("deployment");
   console.log("MongoDB connected");
