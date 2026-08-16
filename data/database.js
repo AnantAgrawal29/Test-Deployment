@@ -3,24 +3,25 @@ const mongodb = require("mongodb");
 const MongoClient = mongodb.MongoClient;
 
 let database;
-let mongoUrl = "mongodb://localhost:27017";
-
-if (process.env.MONGODB_URL) mongodbUrl = process.env.MONGODB_URL;
+const mongoUrl = process.env.MONGODB_URL || "mongodb://localhost:27017";
 
 async function initDatabase() {
-  const client = await MongoClient.connect(mongoUrl);
+  if (database) {
+    return database;
+  }
+  client = new MongoClient(mongoUrl);
+  await client.connect();
   database = client.db("deployment");
+  console.log("MongoDB connected");
+  return database;
 }
 
 function getDb() {
-  if (!database) {
-    throw new Error("No database connected!");
-  }
-
+  if (!database) throw new Error("No database connected!");
   return database;
 }
 
 module.exports = {
-  initDatabase: initDatabase,
-  getDb: getDb,
+  initDatabase,
+  getDb,
 };
