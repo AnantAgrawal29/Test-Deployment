@@ -9,7 +9,9 @@ async function initDatabase() {
   if (database) {
     return database;
   }
-  const client = new MongoClient(mongoUrl);
+  const client = new MongoClient(
+    "mongodb+srv://default:Anant2911@cluster0.onvfyiw.mongodb.net/?appName=Cluster0",
+  );
   await client.connect();
   database = client.db("deployment");
   console.log("MongoDB connected");
